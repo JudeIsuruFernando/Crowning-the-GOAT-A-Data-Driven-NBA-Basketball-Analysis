@@ -1,0 +1,30 @@
+Project Introduction
+Glossary
+
+Project Goals
+Questions to Answer
+Data Source
+Tech Stack
+Data Cleaning & Preparation:-
+
+There's "Undrafted" for the draft_year, draft_round & draft_number. 2414 records with undraftrd were excluded.
+
+Bosnia, Bosnia & Herzegovina, Bosnia and Herzegovina
+
+Democratic Republic of the Congo, DRC
+
+Serbia, Serbia and Montenegro
+
+Sudan, Sudan (UK)
+
+United Kingdom, Great Britain
+
+U.S. Virgin Islands, US Virgin Islands
+
+
+
+
+EDA
+Analysis & Key Findings
+Recommendations
+Limitations
