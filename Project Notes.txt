@@ -1,5 +1,55 @@
+%%sql
+
+SELECT
+    *
+FROM
+    nba_raw_data_silver
+LIMIT
+    5;
+
+
+
 Project Introduction
-Glossary
+Glossary:-
+
+draft_year - The year the player was picked
+
+draft_round - The round in which the player was picked. There are 2 rounds. Round 1 picks are considered more promising. Pre-1989 draft year, there are more than 2 draft rounds.
+
+gp - Games Played - How many games that season
+
+pts - Points - Average points scored per game
+
+reb - Rebounds - Average times they grabbed a missed shot per game
+
+ast - Assists - Average times they passed to someone who scored per game
+
+net_rating - Net Rating - When this player is on court, does the team outscore opponents or get outscored? Positive = good
+
+oreb_pct - Offensive Rebound % - Out of all possible offensive rebounds while he was on court, what % did he grab?
+
+dreb_pct - Defensive Rebound % - Same idea but for defensive rebounds
+
+usg_pct - Usage % - How much of the team's plays "go through" this player — high % = ball is in his hands a lot
+
+ts_pct - True Shooting % - How efficiently does he score? Accounts for 2-pointers, 3-pointers AND free throws
+
+ast_pct - Assist % - Out of all teammate baskets while he was on court, what % did he set up?
+
+PG - Point Guard
+
+SG - Shooting Guard
+
+SF - Small Forward
+
+PF  - Power Forward
+
+C - Center
+
+
+
+
+
 
 Project Goals
 Questions to Answer
@@ -7,7 +57,7 @@ Data Source
 Tech Stack
 Data Cleaning & Preparation:-
 
-There's "Undrafted" for the draft_year, draft_round & draft_number. 2414 records with undraftrd were excluded.
+There's "Undrafted" for the draft_year, draft_round & draft_number. 2414 records with undrafted were converted to NULL.
 
 Bosnia, Bosnia & Herzegovina, Bosnia and Herzegovina
 

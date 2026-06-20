@@ -1,191 +1,251 @@
 # Crowning the GOAT A Data-Driven NBA Basketball Analysis went with this
 
-![Excel](https://img.shields.io/badge/Excel-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)
-![Power BI](https://img.shields.io/badge/PowerBI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
+![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
 ![GitHub](https://img.shields.io/badge/Status-Complete-brightgreen?style=for-the-badge)
 
 - [Project Introduction](#project-introduction)
-- [:bulb: Key Takeaways at a Glance](#bulb-key-takeaways-at-a-glance)
+- [:abc: Glossary](#abc-glossary)
 - [:dart: Project Goals](#dart-project-goals)
 - [:question: Questions to Answer](#question-questions-to-answer)
+  - [Player Performance Analysis](#player-performance-analysis)
+  - [Era \& Team Comparisons](#era--team-comparisons)
+  - [MVP \& Dream Team](#mvp--dream-team)
 - [:information\_source: Data Source](#information_source-data-source)
 - [:hammer: Tech Stack](#hammer-tech-stack)
 - [:broom: Data Cleaning \& Preparation](#broom-data-cleaning--preparation)
 - [:microscope: Analysis \& Key Findings](#microscope-analysis--key-findings)
-  - [Fuel Mix](#fuel-mix)
-  - [EV Adoption Leaders \& Laggards](#ev-adoption-leaders--laggards)
-  - [Alternative Fuels — Significant vs. Niche](#alternative-fuels--significant-vs-niche)
-  - [Infrastructure Investment Gaps](#infrastructure-investment-gaps)
-- [:bulb: Recommendations](#bulb-recommendations)
+  - [Player Performance Analysis](#player-performance-analysis-1)
+  - [Era \& Team Comparisons](#era--team-comparisons-1)
 - [:warning: Limitations](#warning-limitations)
+
 
 ## Project Introduction
 
-Faced with the ongoing oil crisis, Electric Vehicles (EVs) shine bright as a solution that is both independent of global supply chain blockages and environmentally sustainable. 
+An argument has plagued the game of Basketball that is as old as the game itself.
 
-The question is no longer **IF ELECTRIC VEHICLES WILL REPLACE 
-GASOLINE**. Rather, it is **WHO WILL BE LEADING THE CHARGE AND 
-WHO WILL BE LEFT BEHIND**.
+**WHO IS THE MVP?** 
 
-This project analyzes electric and traditional vehicle registrations across all 50 U.S. states to answer that question and to provide data-driven insights and recommendations to policymakers and automakers.
+Many have laid claim to the throne throughout the years.
 
+However, using SQL, this project casts aside opinion and will crown an MVP based on NBA player performance statistics across 27 seasons (1996-97 to 2022-23).
 
-**Stakeholder:** Transportation Research Group
+In addition, performance trends across players, seasons, teams and experience levels will be analyzed to paint a broader picture of performance beyond the MVP.
 
-## :bulb: Key Takeaways at a Glance
+## :abc: Glossary
 
-| | Finding |
-|---|---|
-| :trophy: | California and DC lead EV adoption at 9%+ |
-| :warning: | Florida and Texas have 480,000+ EVs but adoption below 1.5% |
-| :battery: | 95% of U.S. vehicles still run on Gasoline |
+|Abbreviation | Full Form | Description |
+|---|---|---|
+| `draft_year` | N/A | The year the player was picked |
+| `draft_round` | N/A | The round in which the player was picked. There are 2 rounds. Round 1 picks are considered more promising. **Pre-1989 draft year, there are more than 2 draft rounds.** |
+| `gp` | Games Played | How many games a player participated in that season |
+| `pts` | Points | Average points scored per season |
+| `reb` | Rebounds | Average times the player grabbed a missed shot per season |
+| `ast` | Assists | Average times they passed to someone who scored per game |
+| `net_rating` | Net Rating | When this player is on court, does the team outscore opponents or get outscored? Positive = good |
+| `oreb_pct` | Offensive Rebound % | Out of all possible offensive rebounds while a player was on court, what % did he grab? |
+| `dreb_pct` | Defensive Rebound % | Same idea as `oreb_pct` but for defensive rebounds |
+| `usg_pct` | Usage % | How much of the team's plays "go through" this player. high % = ball is in his hands a lot |
+| `ts_pct` | True Shooting % | How efficiently does the player score? Accounts for 2-pointers, 3-pointers AND free throws |
+| `ast_pct` | Assist % | Out of all teammate baskets while he was on court, what % did he set up? |
+| `PG` | Point Guard | Typically the shortest player on the floor and primary ball handler, responsible for setting up plays. In this project, players under 190cm are classified as `PG`. |
+| `SG` | Shooting Guard | A perimeter scorer, often the team's go-to shooter. In this project, players between 190cm and 198cm are classified as SG. |
+| `SF` | Small Forward | A versatile, all-around position blending scoring, rebounding and defense. In this project, players between 198cm and 205cm are classified as SF. |
+| `PF` | Power Forward | A bigger, physical player who scores and rebounds closer to the basket. In this project, players between 205cm and 213cm are classified as PF. |
+| `C` | Center | Typically the tallest player on the floor, anchoring the paint on both ends. In this project, players over 213cm are classified as C. |
 
 ## :dart: Project Goals
   
-- Determine lagging and leading states in EV adoption
-  
-- Compare EV adoption against traditional fuel vehicle market
-  
-- Provide actionable recommendations for infrastructure investment for policymakers and automakers. 
+- Which players lead their seasons in scoring, rebounding, and playmaking and how efficient are they?
+
+ - How do players from different eras (1990s, 2000s, 2010s, 2020s) compare in size, style, and performance?
+
+ - Which teams, positions, or player types consistently produce top performers?
+
+ - Based on the data, who deserves the MVP crown?
 
 ## :question: Questions to Answer
 
-- What percentage of vehicles in each state are EVs, PHEVs, HEVs, and gasoline?
-  
-- Which states have the highest EV adoption rates, and which states lag behind?
+### Player Performance Analysis
 
-- Which alternative fuels (biodiesel, ethanol, hydrogen) are significant vs. niche?
+ - Rank players in each season by points, rebounds, assists per game.
 
-- Where should policymakers prioritize EV infrastructure investment based on adoption trends and gaps in support?
+- Compare efficiency stats (TS% vs usage%) - do volume scorers sacrifice efficiency?
+
+- Identify most improved players across seasons (biggest jump in points/rebounds/assists).
+
+### Era & Team Comparisons
+
+- Compare average player size (height/weight) between 1990s, 2000s, 2010s, and 2020s.
+
+- Identify which teams consistently produce top-performing players.
+
+- Look at rookies vs veterans - how do their contributions differ?
+
+### MVP & Dream Team
+
+- Use a weighted index (e.g., 40% points, 15% rebounds, 15% assists, 30% efficiency) to find an MVP for a given season.
+
+- Build your dream starting 5 (PG, SG, SF, PF, C) using stats across all seasons.
 
 ## :information_source: Data Source
 
-[:link:Raw Data](Data/Raw_Data/vehicle_data_raw.csv)
-
-[:link:Processed Data](Data/Processed_Data/vehicle_data_final.xlsx)
+[:link:Raw Data](Data\nba_all_seasons_raw_data.csv)
 
 > **Note:** On GitHub, click the link above then click the :arrow_down: **Download** 
 > button (or press the download icon) on the top right of the page to save the file.
 
 ## :hammer: Tech Stack
 
-- Excel & Power Query - Data preparation & cleaning
-  
-- Power BI - Data visualization and dashboards
+- **MySQL 8.0+** - Database creation and querying
+
+- **Magic SQL** - Running SQL queries directly within Jupyter notebooks
+
+- **VS Code** - IDE environment
+
+- **Jupyter Notebooks** - Notebook-based structure for combining SQL, narrative, and findings
 
 ## :broom: Data Cleaning & Preparation
 
-The provided raw data was cleaned and prepared for visualization through Power Query and afterwards connected to Power BI for visualization.
-
-Full list of issues/observations and actions taken for cleaning can be found in the table below.
+*Full query and methodology available in [:link:Data Cleaning Notebook](Notebooks/Cleaning/Data%20Cleaning.ipynb)*
 
 | # | Issue/Observation | Action Taken |
 |---|---|---|
-| 1.|Data is in wide format with one row per each state and fuel type, interfering with filtering and aggregation during visualization in Power BI | Un-pivoted the fuel type column and to convert the data to long format |
-|2.| A separate column required to categorize "EV" and "Non-EV" fuel sources| Created a separate reference table containing "EV" or "Non-EV" for each fuel type and merged it with the data to create EV_Non_EV column|
-|3. |A separate column was necessary to categorize fuel sources as "Mainstream" or "Alternative" | Updated the reference table to include the required categories and made the required changes in the Query|
-|4. | State column did not have any duplicates or data quality issues| No action required. Data is available for all 50 U.S. states. **Discussion with the stakeholder may be required to gauge if the scope should expand to U.S. territories**  |
-|5. | Hydrogen registration count was available for California only.|  Since we do not know if this lack of data for other states is due to issues in the data collection, the data was not removed. **The stakeholder must validate the accuracy of this approach**|
-|6. | Methanol has no data for any state. | Since the column is not useful in the analysis, we removed it to reduce processing time. **The stakeholder must validate the accuracy of this approach**|
-|7.|"Unknown Fuel" registrations were available |"Unknown Fuel" registrations were retained and categorized as equivalent to Gasoline for the scope of this analysis. **The stakeholder must validate the accuracy of this approach**.|
-
+| 1 | Unnamed index column and `college` column added no value to the analysis questions. | Excluded both columns from analysis. |
+| 2 | `season` was stored as a string range (e.g. `1996-97`), making era-based grouping difficult. | Extracted `season_starting_year` using `SUBSTRING_INDEX()`. |
+| 3 | No column existed to group seasons into eras for comparison. | Derived a `decade` column (1990s–2020s) from `season_starting_year` using a `CASE` statement. |
+| 4 | `draft_round` contained values from 0 to 8, despite the NBA Draft only having 2 rounds. | Investigated and found pre-1989 drafts had more than 2 rounds. Documented in the Glossary rather than corrected, since `draft_round` was not used in core analysis. |
+| 5 | Small sample sizes (e.g. 1 game played) produced misleading statistics, such as a 100% usage rate. | Applied a minimum games played threshold (`gp >= 20`) across efficiency, MVP, and "most improved" analyses. |
+| 6 | "Most improved player" rankings were skewed by players with minimal prior playing time, inflating perceived improvement. | Additionally filtered to players averaging more than 5 points in their prior season. |
 
 ## :microscope: Analysis & Key Findings
 
-### Fuel Mix
+*Full query and methodology available in [:link:Data Analysis Notebook](Notebooks/Analysis/Data%20Analysis.ipynb)*
 
-- Across all states, Gasoline is leading at 95% of all registrations
+### Player Performance Analysis
 
-- Within the EV market, HEVs claim more than half the market at 60% while the rest is filled by EVs and PHEVs.
+Players were ranked by points, rebounds, and assists across the full dataset (1996-97 to 2022-23), with games played included for context.
 
-![Gasoline & EV](<Exports/Images/01. Gasoline_&_EV.jpeg>)
+**Top Performers (All-Time, 1996-97 to 2022-23, minimum 20 games played)**
 
-- The chart below shows the EV/PHEV/HEV breakdown for the top 5 states by adoption rate. Gasoline is excluded for readability given its 95% national dominance.
+*Scoring (pts):*
 
-![Large States EV Adoption](<Exports/Images/02._Large_States_EV_Adoption.jpeg>)
+| Rank | Player | Season | GP | Pts |
+|---|---|---|---|---|
+| 1 | James Harden | 2018-19 | 78 | 36.1 |
+| 2 | Kobe Bryant | 2005-06 | 80 | 35.4 |
+| 3 | James Harden | 2019-20 | 68 | 34.3 |
+| 4 | Joel Embiid | 2022-23 | 66 | 33.1 |
+| 5 | Allen Iverson | 2005-06 | 72 | 33.0 |
 
-- [Click here](<Exports/PDF/EV_Adoption_Dashboard.pdf>) to view the breakdown of the EV market for all states.
+*Rebounding (reb):*
 
-- The key takeaway is that while the Gasoline is the current fuel of choice, the market is in the early stages of adopting EVs.
+| Rank | Player | Season | GP | Reb |
+|---|---|---|---|---|
+| 1 | Dennis Rodman | 1996-97 | 55 | 16.1 |
+| 2 | Andre Drummond | 2017-18 | 78 | 16.0 |
+| 3 | Andre Drummond | 2018-19 | 79 | 15.6 |
+| 4 | Ben Wallace | 2002-03 | 73 | 15.4 |
+| 5 | Andre Drummond | 2019-20 | 57 | 15.2 |
+| 5 | Kevin Love | 2010-11 | 73 | 15.2 |
+| 5 | DeAndre Jordan | 2017-18 | 77 | 15.2 |
 
-### EV Adoption Leaders & Laggards
+*Playmaking (ast):*
 
-- Large states such as California, District of Columbia and Washington are leading in EV adoption.
+| Rank | Player | Season | GP | Ast |
+|---|---|---|---|---|
+| 1 | Rajon Rondo | 2011-12 | 53 | 11.7 |
+| 1 | Russell Westbrook | 2020-21 | 65 | 11.7 |
+| 1 | Rajon Rondo | 2015-16 | 72 | 11.7 |
+| 4 | Chris Paul | 2007-08 | 80 | 11.6 |
+| 4 | Steve Nash | 2006-07 | 76 | 11.6 |
+
+**Efficiency vs Usage**
+
+A common assumption is that high-usage players (those who handle the ball more) sacrifice shooting efficiency. The data shows the opposite:
+
+| Usage Category | Avg True Shooting % | Total Players |
+|---|---|---|
+| Low Usage (< 0.20) | 0.53 | 6,823 |
+| Medium Usage (0.20–0.30) | 0.53 | 3,679 |
+| High Usage (> 0.30) | 0.57 | 218 |
+
+*(Filtered to `gp >= 20` to exclude small sample sizes.)*
+
+High usage players are slightly **more** efficient, not less, suggesting elite players earn the ball more precisely because they're efficient with it, rather than usage causing a drop in quality.
+
+**Most Improved Players**
+
+Using `LAG()` to compare each player's season-over-season stats (filtered to players averaging 5 or more points in the prior season, to exclude bench-to-starter jumps rather than genuine improvement), the biggest single-season point improvements were
+
+  - Paul George (+14.3, 2015)
   
-- However, smaller states such as Hawaii are making inroads as well.
-
-- States such as North Dakota, Mississippi and Wyoming are lagging in EV adoption.
-
-![EV Adoption Top and Bottom 5](<Exports/Images/03._EV_Adoption_Top_and_Bottom_5.jpeg>)
-
-- In general, states located in the West Coast are embracing EVs while midwestern and southern states are lagging behind.
-
-![EV Adoption Heatmap](<Exports/Images/04._EV_Adoption_Heatmap.jpeg>)
-
--  Possible reasons might include
-   -  lack of EV infrastructure
-   -  limited state-level policy initiatives
-   -  cultural affinity towards internal combustion engines
-
-### Alternative Fuels — Significant vs. Niche
-
-- Alternative fuels (Ethanol, Biodiesel,Compressed Natural Gas (CNG), Hydrogen & Propane) account for only 8% of all registrations with EVs being classified as mainstream fuel for the purpose of this analysis.
-
-- Out of all alternative fuel registrations, Ethanol (88%) & Biodiesel (12%) show significant adoption.
+  - CJ McCollum (+14.0, 2015)
   
-- Compressed Natural Gas (CNG), Hydrogen & Propane  collectively represent less than 1% of all alternative fuel registrations.
-
-![Alternative Sources](<Exports/Images/05._Alternative_Sources.jpeg>)
-
-- A possible cause is that internal combustion engines have greater compatibility with Ethanol and Biodiesel, making the transition to them more convenient and cost-effective
-
-- Based on these observations, it is recommended to prioritize spending on charging infrastructure and incentive programs and allocate minimal spending for alternative fuels until adoption rates justify increased spending.
+  - Amar'e Stoudemire (+11.7, 2006)
+  
+  - Zach Randolph (+11.7, 2003)
 
 
-### Infrastructure Investment Gaps
+### Era & Team Comparisons
 
-Using the lower right quadrant of the scatter plot analysis, we have identified states with high EV registrations but low adoption rates, marking them as ideal candidates for EV infrastructure spending and consumer rebate initiatives.
+**Player Size & Scoring Across Decades**
 
-![EV Count vs Adoption Rate](<Exports/Images/06._EV_Count_vs_Adoption_Rate.jpeg>)
+| Decade | Avg Height (cm) | Avg Weight (kg) | Avg Pts | Total GP |
+|---|---|---|---|---|
+| 1990s | 200.86 | 100.54 | 7.83 | 86,964 |
+| 2000s | 201.04 | 101.36 | 8.10 | 244,989 |
+| 2010s | 200.60 | 100.01 | 8.27 | 250,084 |
+| 2020s | 198.82 | 97.78 | 8.75 | 74,987 |
 
-| State | Pure EV Registrations (approx.) | Adoption Rate | Priority Reason
+NBA players have grown shorter and lighter over time, while average scoring has steadily risen which is consistent with the league's shift toward "pace and space" basketball, prioritizing speed and shooting over size.
+
+*(Note: Total games played for the 2020s is lower than other decades simply because the dataset only covers a few seasons of that decade (2020-21 to 2022-23), not because fewer games were played per season.)*
+
+**Teams Producing Top Performers**
+
+A "top performer" was defined as a player averaging 20 or more points per game across a minimum of 20 games played in a season.
+
+| Team | Seasons w/ Top Performer | Total Appearances |
+|---|---|---|
+| Minnesota Timberwolves | 25 | 30 |
+| Los Angeles Lakers | 23 | 32 |
+| Sacramento Kings | 22 | 28 |
+| Toronto Raptors | 22 | 26 |
+| Golden State Warriors | 22 | 35 |
+| Dallas Mavericks | 21 | 26 |
+| New York Knicks | 20 | 23 |
+| Milwaukee Bucks | 20 | 29 |
+| Chicago Bulls | 19 | 23 |
+| Cleveland Cavaliers | 19 | 22 |
+
+ - Golden State stands out for total appearances (35) relative to seasons (22), indicating they often fielded *multiple* 20+ point scorers in the same season, rather than relying on a single star.
+
+ - Minnesota's #1 ranking by seasons reflects sustained individual scoring talent rather than historical team success, highlighting the difference between having a star and building a winning team.
+
+
+**Rookies vs Veterans**
+
+Players were grouped by age into three experience levels: Rookie (under 23), Mid Career (23–29), and Veteran (30+).
+
+| Experience Level | Avg Pts | Avg Reb | Avg Ast |
 |---|---|---|---|
-| Florida | 250,000 | 1.4% |Highest EV registrations outside of California with a massive infrastructure gap to the tune of just 1.4% adoption |
-| Texas | 230,000 | 0.9% | Just below Florida when it comes to EV registrations and yet an adoption rate of below 1% makes this an untapped reservoir|
-| New York | 100,000 | 1.1%  | A dense urban population with a particularly high potential of possible EV growth in metropolitan areas |
+| Rookie | 7.75 | 3.40 | 1.56 |
+| Mid Career | 8.40 | 3.57 | 1.80 |
+| Veteran | 8.05 | 3.61 | 2.02 |
 
-Prioritizing these states will maximize the impact of the infrastructure investment and consumer incentive programs.
+ - Scoring peaks during a player's prime years (Mid Career) before slightly declining as a Veteran
 
-## :bulb: Recommendations
+ - Assists and rebounds continue climbing with experience, indicating basketball IQ and positioning compensate for physical decline later in a career.
 
-Based on the analysis, the following recommendations are made 
-for the Transportation Research Group:
 
-**1. Prioritize EV Charging Infrastructure in Florida, Texas and New York**
 
-Expand EV charging network and establish repair and maintenance points at high traffic areas.
 
-**2. Introduce or Expand Consumer EV Incentive Programs**
 
-Establish state-level rebates and tax incentives for EV adoption, modelling the adoption strategies of leaders in the EV space such as California and Washington. 
 
-**3. De-prioritize Alternative Fuel Infrastructure Spending**
 
-- National alternative fuel adoption rate is less than 1%, making increased spending inviable.
-
-- Investment should be de-prioritized at this stage.
-
-- However, alternative fuel adoption should be measured as an ongoing concern.
-
-- Should the adoption rates continue to grow and surpass 20%, an increase in spending would be viable, barring any unforeseen circumstances.
 
 
 ## :warning: Limitations
 
-- Data for U.S. Territories & Minor Outlying Islands were not provided.
-
-- Since the data collection timeframe was not included, wider economic trends were not taken into account. 
-
-- Hydrogen had only data collected for California while Methanol had no data at all. This may be indicative of gaps in the data collection process.
-
--   "Unknown Fuel" was assumed to be Gasoline for the scope of this analysis. A detailed breakdown of this category may cause slight changes to the results.
