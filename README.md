@@ -1,11 +1,10 @@
-# Crowning the GOAT A Data-Driven NBA Basketball Analysis went with this
 
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
 ![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
 ![GitHub](https://img.shields.io/badge/Status-Complete-brightgreen?style=for-the-badge)
 
-- [Project Introduction](#project-introduction)
+- [:rocket: Project Introduction](#rocket-project-introduction)
 - [:abc: Glossary](#abc-glossary)
 - [:dart: Project Goals](#dart-project-goals)
 - [:question: Questions to Answer](#question-questions-to-answer)
@@ -18,10 +17,11 @@
 - [:microscope: Analysis \& Key Findings](#microscope-analysis--key-findings)
   - [Player Performance Analysis](#player-performance-analysis-1)
   - [Era \& Team Comparisons](#era--team-comparisons-1)
+  - [MVP \& Dream Team](#mvp--dream-team-1)
 - [:warning: Limitations](#warning-limitations)
 
 
-## Project Introduction
+## :rocket: Project Introduction
 
 An argument has plagued the game of Basketball that is as old as the game itself.
 
@@ -100,11 +100,11 @@ In addition, performance trends across players, seasons, teams and experience le
 
 - **MySQL 8.0+** - Database creation and querying
 
-- **Magic SQL** - Running SQL queries directly within Jupyter notebooks
-
 - **VS Code** - IDE environment
 
 - **Jupyter Notebooks** - Notebook-based structure for combining SQL, narrative, and findings
+
+- **Magic SQL** - Running SQL queries directly within Jupyter notebooks
 
 ## :broom: Data Cleaning & Preparation
 
@@ -118,6 +118,8 @@ In addition, performance trends across players, seasons, teams and experience le
 | 4 | `draft_round` contained values from 0 to 8, despite the NBA Draft only having 2 rounds. | Investigated and found pre-1989 drafts had more than 2 rounds. Documented in the Glossary rather than corrected, since `draft_round` was not used in core analysis. |
 | 5 | Small sample sizes (e.g. 1 game played) produced misleading statistics, such as a 100% usage rate. | Applied a minimum games played threshold (`gp >= 20`) across efficiency, MVP, and "most improved" analyses. |
 | 6 | "Most improved player" rankings were skewed by players with minimal prior playing time, inflating perceived improvement. | Additionally filtered to players averaging more than 5 points in their prior season. |
+| 7 | The `draft_year` (and related draft columns) contained the literal string "Undrafted" mixed with numeric years, preventing numeric operations on the column. | Converted "Undrafted" values to `NULL`. |
+| 8 | The `country` column contained inconsistent naming for the same country (e.g. `United Kingdom` vs `Great Britain`; `U.S. Virgin Islands` vs `US Virgin Islands`), which would split a single country into multiple groups in any country-level analysis. | Standardized variant names into a single consistent label per country. |
 
 ## :microscope: Analysis & Key Findings
 
@@ -239,13 +241,53 @@ Players were grouped by age into three experience levels: Rookie (under 23), Mid
 
  - Assists and rebounds continue climbing with experience, indicating basketball IQ and positioning compensate for physical decline later in a career.
 
+### MVP & Dream Team
 
+**Weighted MVP Index**
 
+Players were scored using a custom weighted formula: 40% points, 15% rebounds, 15% assists, and 30% true shooting percentage, filtered to `gp >= 20`.
 
+| Player | Season | Pts | Reb | Ast | TS% | MVP Score |
+|---|---|---|---|---|---|---|
+| James Harden | 2018 | 36.1 | 6.6 | 7.5 | 0.616 | 16.74 |
+| James Harden | 2019 | 34.3 | 6.6 | 7.5 | 0.626 | 16.02 |
+| Russell Westbrook | 2016 | 31.6 | 10.7 | 10.4 | 0.554 | 15.97 |
+| Kobe Bryant | 2005 | 35.4 | 5.3 | 4.5 | 0.559 | 15.80 |
+| Luka Doncic | 2022 | 32.4 | 8.6 | 8.0 | 0.609 | 15.63 |
 
+**Dream Team**
+
+Since the dataset has no position column, positions were approximated using player height as a proxy, as detailed in the table below.
+
+| Position | Height Range |
+|---|---|
+| PG | Under 190cm |
+| SG | 190–198cm |
+| SF | 198–205cm |
+| PF | 205–213cm |
+| C | Over 213cm |
+
+The highest MVP-scoring player at each position formed the Dream Team.
+
+| Position | Player | MVP Score | Height (cm) |
+|---|---|---|---|
+| PG | Allen Iverson | 14.95 | 182.88 |
+| SG | James Harden | 16.74 | 195.58 |
+| SF | Kobe Bryant | 15.80 | 198.12 |
+| PF | Kevin Durant | 14.93 | 205.74 |
+| C | Joel Embiid | 15.60 | 213.36 |
+
+All five players are widely regarded as among the greatest to play their position, lending credibility to the weighted index despite its simplicity.
 
 
 
 
 ## :warning: Limitations
 
+
+| # | Limitation |
+|---|---|
+| 1 | The MVP weighted index uses raw stat values without normalization. Since `pts`, `reb`, `ast`, and `ts_pct` are on different scales, the formula implicitly favors scoring over other contributions more heavily than the stated weights suggest. |
+| 2 | Dream Team positions were assigned using player height as a proxy, since the dataset contains no position column. This is an approximation and does not reflect each player's actual position. |
+| 3 | The Rookies vs Veterans comparison did not apply a minimum games played filter, unlike most other analyses in this project. Players with very limited playing time may slightly skew the averages within each experience level. |
+| 4 | The dataset does not include team success metrics (e.g. wins, championships), so "top performer" and "MVP" findings reflect individual statistics only, not team outcomes. |
