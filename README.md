@@ -95,7 +95,7 @@ In addition, performance trends across players, seasons, teams and experience le
 
 ## :information_source: Data Source
 
-[:link:Raw Data](Data\nba_all_seasons_raw_data.csv)
+[:link:Raw Data](Data/nba_all_seasons_raw_data.csv)
 
 > **Note:** On GitHub, click the link above then click the :arrow_down: **Download** 
 > button (or press the download icon) on the top right of the page to save the file.
